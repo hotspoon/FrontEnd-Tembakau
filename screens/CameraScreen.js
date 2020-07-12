@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity, Button } from 'react-native';
 import { Camera } from 'expo-camera';
+import axios from 'axios'
 
 export default function CameraScreen() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -24,7 +25,18 @@ export default function CameraScreen() {
   const takePicture = async () => {
     if (cameraRef.current) {
       let photo = await cameraRef.current.takePictureAsync()
-      console.log(photo)
+      let data = new FormData()
+      data.append('file', photo)
+
+      // alamatAPI gantien alamat endpoint tekan beni engkok
+      await axios.post('alamatAPI', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then((res) => {
+        // iki hasil e, tampilno nengdi ngunu engkok ris
+        console.log(res.data)
+      })
     }
   }
 
