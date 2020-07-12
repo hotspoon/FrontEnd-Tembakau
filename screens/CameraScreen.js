@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Button } from 'react-native';
 import { Camera } from 'expo-camera';
 import axios from 'axios'
 
-export default function CameraScreen() {
+export default function CameraScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const cameraRef = useRef(null)
@@ -28,15 +28,17 @@ export default function CameraScreen() {
       let data = new FormData()
       data.append('file', photo)
 
+      navigation.navigate('Result', { photo })
+
       // alamatAPI gantien alamat endpoint tekan beni engkok
-      await axios.post('alamatAPI', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then((res) => {
-        // iki hasil e, tampilno nengdi ngunu engkok ris
-        console.log(res.data)
-      })
+      // await axios.post('alamatAPI', data, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data'
+      //   }
+      // }).then((res) => {
+      //   // iki hasil e, tampilno nengdi ngunu engkok ris
+      //   console.log(res.data)
+      // })
     }
   }
 
