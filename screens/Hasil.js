@@ -6,15 +6,13 @@ const instructions = Platform.select({
   android: `Double tap R on your keyboard to reload,\nShake or press menu button for dev menu`,
 });
 
-export default function HomeScreen({ navigation }) {
+export default function Hasil({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to Tembakau App</Text>
+      <Text style={styles.welcome}>Welcome to React Native!</Text>
       <Text style={styles.instructions}>To get started</Text>
       <Text style={styles.instructions}>{instructions}</Text>
-      <View>
-        <Button title="Ke Kamera" onPress={() => navigation.navigate('Camera')} />
-      </View>
+      
     </View>
   );
 }

@@ -50,7 +50,7 @@ export default function CameraScreen() {
               marginRight: 16
             }}
             onPress={takePicture}>
-            <Text style={{ color: 'white' }}>Press to Scan</Text>
+            <Text style={{ color: 'white' }}>Press to Take</Text>
           </TouchableOpacity>
         </View>
       </Camera>
