@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity, Button } from 'react-native';
 import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios'
+// import { atob } from 'Base64'
 
 export default function CameraScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const [loading, setLoading] = useState(false)
   const cameraRef = useRef(null)
 
   useEffect(() => {
@@ -24,23 +27,31 @@ export default function CameraScreen({ navigation }) {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      let photo = await cameraRef.current.takePictureAsync()
-      let data = new FormData()
-      data.append('file', photo)
+      setLoading(true)
+      let photo = await cameraRef.current.takePictureAsync({
+        base64: true
+      })
+
+      setLoading(false)
 
       navigation.navigate('Result', { photo })
-
-      // alamatAPI gantien alamat endpoint tekan beni engkok
-      // await axios.post('alamatAPI', data, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // }).then((res) => {
-      //   // iki hasil e, tampilno nengdi ngunu engkok ris
-      //   console.log(res.data)
-      // })
     }
   }
+
+  pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      navigation.navigate('Result', { photo: result })
+    } catch (E) {
+      console.log(E);
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -63,8 +74,31 @@ export default function CameraScreen({ navigation }) {
               marginLeft: 16,
               marginRight: 16
             }}
+            disabled={loading}
             onPress={takePicture}>
-            <Text style={{ color: 'white' }}>Press to Take</Text>
+            { loading 
+              ? <Text style={{ color: 'white' }}>Waiting...</Text>
+              : <Text style={{ color: 'white' }}>Press to Take</Text>
+            }
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+              marginBottom: 32,
+              backgroundColor: '#035aa6',
+              paddingTop: 16,
+              paddingBottom: 16,
+              marginLeft: 16,
+              marginRight: 16
+            }}
+            disabled={loading}
+            onPress={pickImage}>
+            { loading 
+              ? <Text style={{ color: 'white' }}>Waiting...</Text>
+              : <Text style={{ color: 'white' }}>From Gallery</Text>
+            }
           </TouchableOpacity>
         </View>
       </Camera>
