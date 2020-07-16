@@ -28,9 +28,7 @@ export default function CameraScreen({ navigation }) {
   const takePicture = async () => {
     if (cameraRef.current) {
       setLoading(true)
-      let photo = await cameraRef.current.takePictureAsync({
-        base64: true
-      })
+      let photo = await cameraRef.current.takePictureAsync()
 
       setLoading(false)
 
