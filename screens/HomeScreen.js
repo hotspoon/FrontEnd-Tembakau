@@ -1,19 +1,24 @@
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View, Button } from 'react-native';
-
-const instructions = Platform.select({
-  ios: `Press Cmd+R to reload,\nCmd+D or shake for dev menu`,
-  android: `Double tap R on your keyboard to reload,\nShake or press menu button for dev menu`,
-});
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
+  const toCamera = () => navigation.navigate('Camera')
+  
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to Tembakau App</Text>
-      <Text style={styles.instructions}>To get started</Text>
-      <Text style={styles.instructions}>{instructions}</Text>
-      <View>
-        <Button title="Ke Kamera" onPress={() => navigation.navigate('Camera')} />
+      <TouchableOpacity style={styles.mainFeature} onPress={toCamera}>
+        <Image style={{ height: 96, width: 96 }} source={require('../assets/camera.png')} />
+        <Text style={styles.featureTitle}>Kamera</Text>
+      </TouchableOpacity> 
+      <View style={styles.bottomFeatures}>
+        <TouchableOpacity>
+          <Image style={{ height: 80, width: 80 }} source={require('../assets/upload.png')} />
+          <Text style={styles.featureTitle}>Upload</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image style={{ height: 80, width: 80 }} source={require('../assets/result.png')} />
+          <Text style={styles.featureTitle}>Hasil</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -22,18 +27,22 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#CDF5D1',
   },
-  welcome: {
+  featureTitle: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    fontWeight: 'bold'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  mainFeature: {
+    top: 100
   },
+  bottomFeatures: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignSelf: 'stretch',
+    bottom: 20
+  }
 });
