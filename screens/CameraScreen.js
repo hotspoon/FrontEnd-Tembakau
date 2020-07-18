@@ -36,7 +36,7 @@ export default function CameraScreen({ navigation }) {
     }
   }
 
-  pickImage = async () => {
+  const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -45,7 +45,9 @@ export default function CameraScreen({ navigation }) {
         quality: 1,
       });
 
-      navigation.navigate('Result', { photo: result })
+      if (!result.cancelled) {
+        navigation.navigate('Result', { photo: result })
+      }
     } catch (E) {
       console.log(E);
     }
